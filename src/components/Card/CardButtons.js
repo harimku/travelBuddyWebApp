@@ -7,6 +7,7 @@ const CardButtons = () => {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        flexWrap: 'wrap',
         alignItems: 'center',
         width: '40%',
         flex: 1
