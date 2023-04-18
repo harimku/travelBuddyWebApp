@@ -1,12 +1,27 @@
-import React from 'react';
-import '../App.css';
-import { Button, Card, Input, Space, Row, Col } from 'antd';
-import { AudioOutlined } from '@ant-design/icons';
-const { Search } = Input;
+import React from 'react'
+import '../../App.css'
+import { Button, Card, Input, Space, Row, Col } from 'antd'
+import { AudioOutlined } from '@ant-design/icons'
+import { locations } from '../../Types/Locations'
+const { Search } = Input
 
 
-export default function Header() {
-
+export default function Header({ setSearchResults }) {
+  const handleSearch = (value) => {
+    const trimmedValue = value.trim()
+    if (trimmedValue === '') {
+      setSearchResults([])
+    } else {
+      const filteredLocations = locations.filter(location =>
+        location.location.replace(/\s+/g, '').toLowerCase() === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+      );
+      if (filteredLocations.length > 0) {
+        setSearchResults(filteredLocations)
+      } else {
+        setSearchResults([{ message: "no results found" }])
+      }
+    }
+  }
   return (
     <div className="header">
       <Card bordered={false}>
@@ -16,7 +31,7 @@ export default function Header() {
             md={{ span: 4, offset: 0 }}
             lg={{ span: 4, offset: 0 }}
           >
-            <h2>TravelBuddy</h2>
+            <h2>Travel Buddy</h2>
           </Col>
           <Col
             xs={{ span: 24, offset: 1 }}
@@ -29,7 +44,7 @@ export default function Header() {
               enterButton
               size="large"
               allowClear
-              // onSearch={handleSearch}
+              onSearch={handleSearch}
             />
           </Col>
           <Col
