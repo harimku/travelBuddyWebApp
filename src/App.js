@@ -7,7 +7,8 @@ import Home from './components/Home/Home.js';
 
 
 function App() {
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState({});
+
   return (
     <div className="App">
       <Router>
@@ -16,7 +17,7 @@ function App() {
 
         {/* display content based on URL route */}
         <Routes>
-         <Route path="/" element={<Home searchResults={searchResults} />} />
+          <Route path="/" element={<Home searchResults={searchResults} />} />
         </Routes>
       </Router>
     </div>

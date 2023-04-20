@@ -1,31 +1,81 @@
-import React from 'react'
-import '../../App.css'
-import { Button, Card, Input, Space, Row, Col } from 'antd'
-import { AudioOutlined } from '@ant-design/icons'
-import { locations } from '../../Types/Locations'
-const { Search } = Input
+import React, { useEffect } from 'react';
+import '../../App.css';
+import { Button, Card, Input, Row, Col } from 'antd';
+import { locations } from '../../Types/Locations';
+import { restaurants } from '../../Types/Restaurants';
+import { activities } from '../../Types/Activities';
+
+const { Search } = Input;
 
 
 export default function Header({ setSearchResults }) {
+
+  // Handler function for search
   const handleSearch = (value) => {
-    const trimmedValue = value.trim()
-    if (trimmedValue === '') {
-      setSearchResults([])
-    } else {
-      const filteredLocations = locations.filter(location =>
-        location.location.replace(/\s+/g, '').toLowerCase() === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+    const trimmedValue = value.trim();
+    if (trimmedValue !== '') {
+      // grab results from locations database
+      const filteredLocations = locations.filter(
+        item =>
+          (item.location.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ) || (item.tag.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          )
       );
-      if (filteredLocations.length > 0) {
-        setSearchResults(filteredLocations)
-      } else {
-        setSearchResults([{ message: "no results found" }])
-      }
+
+      // grab results from restaurants database
+      const filteredRestaurants = restaurants.filter(
+        item =>
+          (item.location.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ) || (item.tag.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          )
+      );
+
+      // grab results from activities database
+      const filteredActivities = activities.filter(
+        item =>
+          (item.location.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ) || (item.tag.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          )
+      );
+
+      // Combine result from 3 databases into 1 object
+      const filteredData = {
+        visit: filteredLocations,
+        eat: filteredRestaurants,
+        activities: filteredActivities
+      };
+      setSearchResults(filteredData);
+    } else {
+      // reset search result with entire database
+      const allData = {
+        visit: locations,
+        eat: restaurants,
+        activities: activities
+      };
+      setSearchResults(allData);
     }
   }
+
+  // On first render, load the entire database
+  useEffect(() => {
+    const allData = {
+      visit: locations,
+      eat: restaurants,
+      activities: activities
+    };
+    setSearchResults(allData);
+  }, []);
+
   return (
     <div className="header">
       <Card bordered={false}>
-        <Row>
+        <Row align="middle">
           <Col
             xs={{ span: 24, offset: 1 }}
             md={{ span: 4, offset: 0 }}
@@ -55,7 +105,7 @@ export default function Header({ setSearchResults }) {
             <Button type="primary" className="simple-button">
               Login
             </Button>
-            <Button style={{marginLeft: "1em"}} type="primary" className="simple-button">
+            <Button style={{ marginLeft: "1em" }} type="primary" className="simple-button">
               Review
             </Button>
           </Col>
@@ -63,4 +113,4 @@ export default function Header({ setSearchResults }) {
       </Card>
     </div >
   );
-}
+};
