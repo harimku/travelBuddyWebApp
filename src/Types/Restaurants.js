@@ -1,27 +1,24 @@
-import empireStateBuilding from '../assets/empire-state-building.png'
-import statueOfLiberty from '../assets/statue-of-liberty.png'
-import koreaTown from '../assets/koreatown.png'
-
+import mitchells from '../assets/restaurants/Mitchells-Ice-Cream.png'
 
 export const restaurants = [
   {
     id: 1,
-    title: 'restaurant 1',
-    image: koreaTown,
-    location: 'Los Angeles',
-    tag: "LA"
+    title: 'Mitchell\'s Ice Cream (SF)',
+    image: mitchells,
+    location: 'San Francisco',
+    tag: "SF"
   },
   {
     id: 2,
     title: 'restaurant 2',
-    image: empireStateBuilding,
+    image: '',
     location: 'New York',
     tag: "NYC"
   },
   {
     id: 3,
     title: 'restaurants 3',
-    image: statueOfLiberty,
+    image: '',
     location: 'New York',
     tag: "NYC"
   },

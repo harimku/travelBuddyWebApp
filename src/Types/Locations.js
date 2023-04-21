@@ -1,8 +1,8 @@
-import centralPark from '../assets/central-park.png'
-import empireStateBuilding from '../assets/empire-state-building.png'
-import statueOfLiberty from '../assets/statue-of-liberty.png'
-import goldenGatePark from '../assets/Golden-gate-park.png'
-import koreaTown from '../assets/koreatown.png'
+import centralPark from '../assets/locations/central-park.png'
+import empireStateBuilding from '../assets/locations/empire-state-building.png'
+import statueOfLiberty from '../assets/locations/statue-of-liberty.png'
+import goldenGatePark from '../assets/locations/Golden-gate-park.png'
+import koreaTown from '../assets/locations/koreatown.png'
 
 
 export const locations = [
