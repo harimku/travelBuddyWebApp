@@ -8,12 +8,13 @@ import Home from './components/Home/Home.js';
 
 function App() {
   const [searchResults, setSearchResults] = useState({});
+  const [username, setUsername] = useState();
 
   return (
     <div className="App">
       <Router>
         {/* display Header component in every page */}
-        <Header setSearchResults={setSearchResults} />
+        <Header setSearchResults={setSearchResults} setUsername={setUsername} />
 
         {/* display content based on URL route */}
         <Routes>

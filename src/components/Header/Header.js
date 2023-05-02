@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import { Button, Card, Input, Row, Col } from 'antd';
+import { Button, Card, Checkbox, Input, Row, Col, Modal, Form } from 'antd';
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+
 import { locations } from '../../Types/Locations';
 import { restaurants } from '../../Types/Restaurants';
 import { activities } from '../../Types/Activities';
@@ -8,7 +14,51 @@ import { activities } from '../../Types/Activities';
 const { Search } = Input;
 
 
-export default function Header({ setSearchResults }) {
+export default function Header({ setSearchResults, setUsername }) {
+
+  // Boolean flag indicates whether user is logged in or not
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Boolean flags to manage modal state (open/close)
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [isRegistrationModalOpen, setRegistrationModalOpen] = useState(false);
+
+  // Form references
+  const [regForm] = Form.useForm();
+  const [loginForm] = Form.useForm();
+
+  // Handler functions for managaing login/reg modals
+  const handleLoginCancel = () => {
+    setLoginModalOpen(false);
+  }
+
+  const handleRegCancel = () => {
+    setRegistrationModalOpen(false);
+  }
+
+  const handleSwitchToLogin = () => {
+    setRegistrationModalOpen(false);
+    setLoginModalOpen(true);
+  }
+
+  const handleSwitchToReg = () => {
+    setLoginModalOpen(false);
+    setRegistrationModalOpen(true);
+  }
+
+  const handleLogin = (formValues) => {
+    console.log(formValues);
+    setUsername(formValues.username);  // store username globally
+    setIsLoggedIn(true); // remember that user has logged in
+    setLoginModalOpen(false);  // close modal
+  }
+
+  const handleRegistration = (formValues) => {
+    console.log(formValues);
+    setUsername(formValues.username);  // store username globally
+    setIsLoggedIn(true);  // remember that user has logged in
+    setRegistrationModalOpen(false);  // close modal
+  }
 
   // Handler function for search
   const handleSearch = (value) => {
@@ -74,6 +124,7 @@ export default function Header({ setSearchResults }) {
 
   return (
     <div className="header">
+      {/* Header elements */}
       <Card bordered={false}>
         <Row align="middle">
           <Col
@@ -102,15 +153,270 @@ export default function Header({ setSearchResults }) {
             md={{ span: 6, offset: 0 }}
             lg={{ span: 4, offset: 0 }}
           >
-            <Button type="primary" className="simple-button">
-              Login
-            </Button>
-            <Button style={{ marginLeft: "1em" }} type="primary" className="simple-button">
+            {/* Display login button if not logged & account button if logged in */}
+            {isLoggedIn ?
+              <Button
+                type="primary"
+                className="simple-button"
+              // onClick={ }
+              >
+                Account
+              </Button> :
+              <Button
+                type="primary"
+                className="simple-button"
+                onClick={() => setLoginModalOpen(true)}
+              >
+                Login
+              </Button>
+            }
+            <Button
+              style={{ marginLeft: "1em" }}
+              type="primary"
+              className="simple-button"
+            // onClick={}
+            >
               Review
             </Button>
           </Col>
         </Row>
       </Card>
-    </div >
+
+      {/* Default hidden modal for login */}
+      <Modal
+        title="Sign In"
+        okText="Sign In"
+        open={isLoginModalOpen}
+        onCancel={handleLoginCancel}
+        onOk={loginForm.submit}
+      >
+        <Form
+          form={loginForm}
+          name="login form"
+          labelCol={{
+            span: 6,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={handleLogin}
+          // onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <h5 style={{ color: '#f56a00', textAlign: 'center' }}>* fields are mandatory</h5>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please provide your username!",
+              },
+              {
+                min: 3,
+                message: "Must have at least 3 characters.",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+              {
+                min: 6,
+                message: "Must have at least 6 characters.",
+              },
+              {
+                // Validation: No special characters
+                pattern: new RegExp(/^[a-z0-9]+$/i),
+                message: "No special characters such as :<>/%#&?'",
+              },
+              {
+                // Validation: Alphanumeric
+                pattern: new RegExp(
+                  /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$/i
+                ),
+                message: "Must contain a mix of letters and number(s)",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Button type="link" >
+            <SettingOutlined />
+            <a
+              href="https://google.com"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {" "}Forgot password? Click here to reset.
+            </a>
+          </Button>
+          <br />
+          <Button type="link" onClick={handleSwitchToReg}>
+            <ArrowLeftOutlined />
+            Go to Registration
+          </Button>
+        </Form>
+      </Modal>
+
+      {/* Default hidden modal for registration */}
+      <Modal
+        title="Registration"
+        okText="Sign Up"
+        open={isRegistrationModalOpen}
+        onCancel={handleRegCancel}
+        onOk={regForm.submit}
+      >
+        <Form
+          form={regForm}
+          name="Sign up form"
+          labelCol={{
+            span: 6,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            agreeToTerms: false,
+          }}
+          onFinish={handleRegistration}
+          autoComplete="off"
+        >
+          <h5 style={{ color: '#f56a00', textAlign: 'center' }}>* fields are mandatory</h5>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+              {
+                min: 4,
+                message: "Must have at least 4 characters.",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="First name"
+            name="firstname"
+            rules={[
+              {
+                required: true,
+                pattern: new RegExp(/^[a-zA-Z]+$/),
+                message: "Please provide a valid first name!",
+              },
+              {
+                min: 2,
+                message: "Must have at least 2 characters.",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Last name"
+            name="lastname"
+            rules={[
+              {
+                required: true,
+                pattern: new RegExp(/^[a-zA-Z]+$/),
+                message: "Please provide a valid last name!",
+              },
+              {
+                min: 2,
+                message: "Must have at least 2 characters.",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please provide your email!",
+              },
+              {
+                pattern: new RegExp(/\S+@\S+\.\S+/),
+                message:
+                  "Provide a valid email address",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+              {
+                min: 6,
+                message: "Must have at least 6 characters.",
+              },
+              {
+                // Validation: No special characters
+                pattern: new RegExp(/^[a-z0-9]+$/i),
+                message: "No special characters such as :<>/%#&?'",
+              },
+              {
+                // Validation: Alphanumeric
+                pattern: new RegExp(
+                  /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$/i
+                ),
+                message: "Must contain a mix of letters and number(s)",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            name="agreeToTerms"
+            valuePropName="checked"
+            wrapperCol={{
+              offset: 2,
+              span: 20,
+            }}
+            rules={[
+              {
+                required: true,
+                validator: (_, value) =>
+                  value ? Promise.resolve()
+                    :
+                    Promise.reject(new Error('You must agree to terms & conditions to register')),
+              },
+            ]}
+          >
+            <Checkbox>
+              I agree to the terms and conditions of TravelBuddy's
+              User Agreement and Privacy Policy
+            </Checkbox>
+          </Form.Item>
+        </Form>
+        <Button type="link" onClick={handleSwitchToLogin}>
+          Already a member? Log in here
+          <ArrowRightOutlined />
+        </Button>
+      </Modal>
+    </div>
   );
 };
