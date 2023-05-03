@@ -9,6 +9,11 @@ import {
     LogoutOutlined
 } from '@ant-design/icons';
 
+import SavedList from './SavedList';
+import MyReviews from './MyReviews';
+import Setting from './Setting';
+
+
 // Menu tab items
 const items = [
     getItem('Saved List', '1', <HeartFilled />),
@@ -32,8 +37,13 @@ export default function Account() {
     // React hooks for managing URL and search parameters
     const navigate = useNavigate();
 
+    // Store the key of chosen menu tab
     const [chosenTab, setChosenTab] = useState('1');
 
+    // Store the content to be displayed based on the chosen key
+    const [content, setContent] = useState(<SavedList />);
+
+    // Handler function updates chosenTab when user clicks a tab
     const handleClick = (op) => {
         console.log(op);
         setChosenTab(op.key);
@@ -45,9 +55,24 @@ export default function Account() {
         navigate("/"); // navigate to homepage
     }
 
+    // run everytime chosenTab value updates
     useEffect(() => {
         if (chosenTab == '5') {
             handleLogout();
+        } else {
+            switch (chosenTab) {
+                case '1':
+                    setContent(<SavedList />)
+                    break;
+                case '2':
+                    setContent(<MyReviews />)
+                    break;
+                case '3':
+                    setContent(<Setting />)
+                    break;
+                default:
+                    break;
+            }
         }
     }, [chosenTab]);
 
@@ -74,7 +99,7 @@ export default function Account() {
                     md={{ span: 16 }}
                     lg={{ span: 16 }}
                 >
-                    Display content here
+                    {content}
                 </Col>
             </Row>
         </div>
