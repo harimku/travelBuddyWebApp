@@ -75,6 +75,11 @@ export default function Header({ setSearchResults }) {
     setRegistrationModalOpen(false);  // close modal
   }
 
+  // Handler function for "Account" button (for logged in user)
+  const handleAccountOpen = () => {
+    navigate("/account");
+  }
+
   // Handler function for "Review" button
   const handleReview = () => {
     if (isLoggedIn) {
@@ -191,7 +196,7 @@ export default function Header({ setSearchResults }) {
               <Button
                 type="primary"
                 className="simple-button"
-              // onClick={ }
+                onClick={handleAccountOpen}
               >
                 Account
               </Button> :
