@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../../App.css';
-import { Button, Card, Checkbox, Input, Row, Col, Modal, Form } from 'antd';
+import { Anchor, Button, Card, Checkbox, Input, Row, Col, Modal, Form, message } from 'antd';
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -12,12 +13,26 @@ import { restaurants } from '../../Types/Restaurants';
 import { activities } from '../../Types/Activities';
 
 const { Search } = Input;
+const { Link } = Anchor;
 
 
-export default function Header({ setSearchResults, setUsername }) {
+export default function Header({ setSearchResults }) {
 
-  // Boolean flag indicates whether user is logged in or not
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // React hooks for managing URL and search parameters
+  const navigate = useNavigate();
+
+  // Check user login status from window session storage
+  const checkLoginStatus = () => {
+    const tokenString = window.localStorage.getItem('username');
+    if (tokenString && tokenString.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // Boolean flag indicates whether user is logged in or not using above function
+  const [isLoggedIn, setIsLoggedIn] = useState(checkLoginStatus());
 
   // Boolean flags to manage modal state (open/close)
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -48,16 +63,31 @@ export default function Header({ setSearchResults, setUsername }) {
 
   const handleLogin = (formValues) => {
     console.log(formValues);
-    setUsername(formValues.username);  // store username globally
     setIsLoggedIn(true); // remember that user has logged in
+    window.localStorage.setItem("username", formValues.username); // store username globally
     setLoginModalOpen(false);  // close modal
   }
 
   const handleRegistration = (formValues) => {
     console.log(formValues);
-    setUsername(formValues.username);  // store username globally
     setIsLoggedIn(true);  // remember that user has logged in
+    window.localStorage.setItem("username", formValues.username); // store username globally
     setRegistrationModalOpen(false);  // close modal
+  }
+
+  // Handler function for "Account" button (for logged in user)
+  const handleAccountOpen = () => {
+    navigate("/account");
+  }
+
+  // Handler function for "Review" button
+  const handleReview = () => {
+    if (isLoggedIn) {
+      // proceed to review page
+      navigate("/writeReview");
+    } else {
+      message.error('You must be logged in to use this feature!');
+    }
   }
 
   // Handler function for search
@@ -132,7 +162,15 @@ export default function Header({ setSearchResults, setUsername }) {
             md={{ span: 4, offset: 0 }}
             lg={{ span: 4, offset: 0 }}
           >
-            <h2>Travel Buddy</h2>
+            <Link
+              className="navbar"
+              href="/"
+              title={
+                <h2>
+                  TravelBuddy
+                </h2>
+              }
+            />
           </Col>
           <Col
             xs={{ span: 24, offset: 1 }}
@@ -158,7 +196,7 @@ export default function Header({ setSearchResults, setUsername }) {
               <Button
                 type="primary"
                 className="simple-button"
-              // onClick={ }
+                onClick={handleAccountOpen}
               >
                 Account
               </Button> :
@@ -174,7 +212,7 @@ export default function Header({ setSearchResults, setUsername }) {
               style={{ marginLeft: "1em" }}
               type="primary"
               className="simple-button"
-            // onClick={}
+              onClick={handleReview}
             >
               Review
             </Button>
