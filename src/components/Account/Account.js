@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../App.css';
-import { Col, Row, Menu } from 'antd';
+import { Col, Row, Menu, message } from 'antd';
 import {
     HeartFilled,
     EditFilled,
@@ -26,13 +27,29 @@ function getItem(label, key, icon, children) {
     };
 }
 
+
 export default function Account() {
+    // React hooks for managing URL and search parameters
+    const navigate = useNavigate();
+
     const [chosenTab, setChosenTab] = useState('1');
 
     const handleClick = (op) => {
         console.log(op);
         setChosenTab(op.key);
     };
+
+    const handleLogout = () => {
+        window.localStorage.clear(); // clear window local storage
+        message.success("Log out success!!");
+        navigate("/"); // navigate to homepage
+    }
+
+    useEffect(() => {
+        if (chosenTab == '5') {
+            handleLogout();
+        }
+    }, [chosenTab]);
 
     return (
         <div>
