@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import '../../App.css';
-import ItemCard from '../Card/ItemCard';
-import SearchFilter from '../Header/SearchFilter';
+import React, { useEffect, useState } from "react";
+import "../../App.css";
+import ItemCard from "../Card/ItemCard";
+import SearchFilter from "../Header/SearchFilter";
 
-
-export default function Home({ searchResults }) {
+export default function Home({ searchResults, setItemData }) {
   const [currentTab, setCurrentTab] = useState("visit");
   const [filteredRes, setFilteredRes] = useState();
 
@@ -23,20 +22,24 @@ export default function Home({ searchResults }) {
       default:
         break;
     }
-  }, [currentTab, searchResults])
+  }, [currentTab, searchResults]);
 
   return (
     <div>
       <SearchFilter updateTab={setCurrentTab} />
 
       {/* Display filtered data */}
-      {filteredRes ?
-        filteredRes.length !== 0 ?
-          filteredRes.map((data) =>
-            <ItemCard key={data.id} data={data} />
-          ) : <div>No results found</div>
-        : <div>Error</div>
-      }
+      {filteredRes ? (
+        filteredRes.length !== 0 ? (
+          filteredRes.map((data) => (
+            <ItemCard key={data.id} data={data} setItemData={setItemData} />
+          ))
+        ) : (
+          <div>No results found</div>
+        )
+      ) : (
+        <div>Error</div>
+      )}
     </div>
-  )
-};
+  );
+}
