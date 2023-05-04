@@ -3,6 +3,12 @@ import '../../App.css';
 import { Card, Row, Menu } from "antd";
 import { HeartFilled } from "@ant-design/icons";
 
+import SavedItem from "./SavedItem";
+import { locations } from '../../Types/Locations';
+import { restaurants } from '../../Types/Restaurants';
+import { activities } from '../../Types/Activities';
+
+
 const items = [
   {
     label: 'Visit',
@@ -22,30 +28,33 @@ const items = [
   },
 ]
 
-export default function SavedList() {
+export default function SavedList({ setItemData }) {
 
-  const [content, setContent] = useState();
+  const [content, setContent] = useState(locations.slice(1, 4));
   const [chosenTab, setChosenTab] = useState('1');
 
   const handleTabChange = (chosen) => {
-    console.log(chosen);
-    switch (chosen) {
+    console.log(chosen.key);
+    switch (chosen.key) {
       case '1':
-        setChosenTab("visit");
+        setChosenTab('1');
+        setContent(locations.slice(1, 4));
         break;
       case '2':
-        setChosenTab("eat");
+        setChosenTab('2');
+        setContent(restaurants.slice(1, 3));
         break;
       case '3':
-        setChosenTab("activities");
+        setChosenTab('3');
+        setContent(activities.slice(1, 5));
         break;
       case '4':
-        setChosenTab("hotels");
+        setChosenTab('4');
+        setContent([]);
         break;
       default:
         break;
     }
-    setContent(chosen.label);
   };
 
   return (
@@ -56,12 +65,22 @@ export default function SavedList() {
         </Row>
         <Menu
           onClick={handleTabChange}
-          selectedKey={[chosenTab]}
+          selectedKeys={[chosenTab]}
           mode="horizontal"
-          items={items} />
-
+          items={items}
+        />
         <Card>
-          {content}
+          {content ? (
+            content.length !== 0 ? (
+              content.map((data) => (
+                <SavedItem key={data.id} data={data} setItemData={setItemData} />
+              ))
+            ) : (
+              <div>Saved list is empty</div>
+            )
+          ) : (
+            <div>Error</div>
+          )}
         </Card>
       </Card>
     </div >

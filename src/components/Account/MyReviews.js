@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import '../../App.css';
 import { Card, Row, Menu } from "antd";
 import { EditFilled } from "@ant-design/icons";
+import ReviewItem from "./ReviewItem";
+import {
+  location_reviews,
+  restaurant_reviews,
+  activity_reviews,
+  hotel_reviews
+} from "../../Types/Reviews";
 
 const items = [
   {
@@ -23,43 +30,59 @@ const items = [
 ]
 
 export default function MyReviews() {
-  const [content, setContent] = useState();
+  const [content, setContent] = useState(location_reviews);
   const [chosenTab, setChosenTab] = useState('1');
 
   const handleTabChange = (chosen) => {
-    console.log(chosen);
-    switch (chosen) {
+    console.log(chosen.key);
+    switch (chosen.key) {
       case '1':
-        setChosenTab("visit");
+        setChosenTab(chosen.key);
+        setContent(location_reviews);
         break;
       case '2':
-        setChosenTab("eat");
+        setChosenTab(chosen.key);
+        setContent(restaurant_reviews);
         break;
       case '3':
-        setChosenTab("activities");
+        setChosenTab(chosen.key);
+        setContent(activity_reviews);
         break;
       case '4':
-        setChosenTab("hotels");
+        setChosenTab(chosen.key);
+        setContent(hotel_reviews);
         break;
       default:
         break;
     }
-    setContent(chosen.label);
   };
 
   return (
-    <Card bordered={false}>
-      <Row align="middle">
-        <h2><EditFilled />    My Reviews</h2>
-      </Row>
-      <Menu
-        onClick={handleTabChange}
-        selectedKey={[chosenTab]}
-        mode="horizontal"
-        items={items} />
-      <Card>
-        {content}
+    <div>
+      <Card bordered={false}>
+        <Row align="middle">
+          <h2><EditFilled />    My Reviews</h2>
+        </Row>
+        <Menu
+          onClick={handleTabChange}
+          selectedKeys={[chosenTab]}
+          mode="horizontal"
+          items={items}
+        />
+        <Card>
+          {content ? (
+            content.length !== 0 ? (
+              content.map((data) => (
+                <ReviewItem key={data.id} data={data} />
+              ))
+            ) : (
+              <div>Saved list is empty</div>
+            )
+          ) : (
+            <div>Error</div>
+          )}
+        </Card>
       </Card>
-    </Card>
+    </div>
   );
 };

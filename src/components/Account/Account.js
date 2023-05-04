@@ -31,7 +31,7 @@ function getItem(label, key, icon, children) {
   };
 }
 
-export default function Account() {
+export default function Account({ setItemData }) {
   // React hooks for managing URL and search parameters
   const navigate = useNavigate();
 
@@ -60,7 +60,7 @@ export default function Account() {
     } else {
       switch (chosenTab) {
         case "1":
-          setContent(<SavedList />);
+          setContent(<SavedList setItemData={setItemData} />);
           break;
         case "2":
           setContent(<MyReviews />);
@@ -80,10 +80,10 @@ export default function Account() {
       <br />
       <Row>
         <Col
-          xs={{ span: 8 }}
+          xs={{ span: 24 }}
           sm={{ span: 6 }}
-          md={{ span: 8 }}
-          lg={{ span: 8 }}
+          md={{ span: 6 }}
+          lg={{ span: 6 }}
         >
           <Menu
             onClick={handleClick}
@@ -93,10 +93,10 @@ export default function Account() {
           />
         </Col>
         <Col
-          xs={{ span: 16 }}
+          xs={{ span: 24 }}
           sm={{ span: 18 }}
-          md={{ span: 16 }}
-          lg={{ span: 16 }}
+          md={{ span: 18 }}
+          lg={{ span: 18 }}
         >
           {content}
         </Col>

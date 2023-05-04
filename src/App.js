@@ -28,7 +28,7 @@ function App() {
           />
           <Route path="/viewDetail" element={<ItemDetail data={itemData} />} />
           <Route path="/writeReview" element={<Reviews />} />
-          <Route path="/account" element={<Account />} />
+          <Route path="/account" element={<Account setItemData={setItemData} />} />
         </Routes>
       </Router>
     </div>
