@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Image, Row } from "antd";
+import { Button, Card, Col, Image, Rate, Row } from "antd";
 
 export default function ItemDetail({ data }) {
   return (
@@ -22,6 +22,8 @@ export default function ItemDetail({ data }) {
           >
             <h2>{data.title}</h2>
             <p>Location: {data.location}</p>
+            <p>Description: {data.description}</p>
+            <Rate allowHalf value={data.rating} />
             <br />
             <br />
             <Button type="primary">Leave a Review</Button>
