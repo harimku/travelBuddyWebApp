@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Image, Typography, Row } from "antd";
+import { Button, Col, Image, Typography, message, Row } from "antd";
 
 const { Title } = Typography;
 
@@ -11,6 +11,10 @@ const ItemCard = ({ data, setItemData }) => {
     setItemData(data);
     navigate("/viewDetail");
   };
+
+  const handleSave = () => {
+    message.success(`${data.title} is saved to your saved list!`);
+  }
 
   return (
     <Col xs={{ span: 24 }} lg={{ span: 22, offset: 1 }}>
@@ -55,6 +59,7 @@ const ItemCard = ({ data, setItemData }) => {
             View Details
           </Button>
           <Button
+            onClick={handleSave}
             style={{ marginLeft: "1em" }}
             type="primary"
             className="simple-button"

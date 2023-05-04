@@ -1,7 +1,19 @@
 import React from "react";
-import { Button, Card, Col, Image, Rate, Row } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Button, Card, Col, Image, message, Rate, Row, } from "antd";
 
 export default function ItemDetail({ data }) {
+  // React hooks for managing URL
+  const navigate = useNavigate();
+
+  const handleReview = () => {
+    navigate("/writeReview");
+  };
+
+  const handleSave = () => {
+    message.success(`${data.title} is saved to your saved list!`);
+  };
+
   return (
     <div>
       <Card>
@@ -26,8 +38,8 @@ export default function ItemDetail({ data }) {
             <Rate allowHalf value={data.rating} />
             <br />
             <br />
-            <Button type="primary">Leave a Review</Button>
-            <Button type="primary" style={{ margin: "1em" }}>
+            <Button onClick={handleReview} type="primary">Leave a Review</Button>
+            <Button onClick={handleSave} type="primary" style={{ margin: "1em" }}>
               Save to My List
             </Button>
           </Col>
