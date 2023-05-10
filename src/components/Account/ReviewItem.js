@@ -11,6 +11,7 @@ export default function ReviewItem({ data }) {
         align="middle"
         justify="center"
         style={{
+          marginBottom: "1em",
           backgroundColor: "#ADD8E6",
           borderRadius: "7px",
           boxShadow: "rgba(0, 0, 100, 0.3) 0px 4px 12px",
@@ -20,15 +21,15 @@ export default function ReviewItem({ data }) {
         <Col
           xs={{ span: 24 }}
           sm={{ span: 24 }}
-          md={{ span: 6 }}
-          lg={{ span: 6 }}
+          md={{ span: 4 }}
+          lg={{ span: 4 }}
         >
           <Title level={5}>{data.title}</Title>
         </Col>
         <Col
           xs={{ span: 18 }}
           sm={{ span: 18 }}
-          md={{ span: 12 }}
+          md={{ span: 14 }}
           lg={{ span: 12 }}
         >
           <Rate allowHalf value={data.rating} />
@@ -40,6 +41,11 @@ export default function ReviewItem({ data }) {
           md={{ span: 6 }}
           lg={{ span: 6 }}
         >
+          <Button
+            type="primary"
+          >
+            Edit
+          </Button>
           <Button
             type="primary"
             style={{ margin: "1em" }}>

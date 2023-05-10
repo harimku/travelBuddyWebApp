@@ -11,6 +11,7 @@ import {
 import { locations } from '../../Types/Locations';
 import { restaurants } from '../../Types/Restaurants';
 import { activities } from '../../Types/Activities';
+import { hotels } from '../../Types/Hotels';
 
 const { Search } = Input;
 const { Link } = Anchor;
@@ -101,7 +102,9 @@ export default function Header({ setSearchResults }) {
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
           ) || (item.tag.replace(/\s+/g, '').toLowerCase()
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
-          )
+          ) || (item.title.replace(/\s+/g, '').toLowerCase().includes(
+            trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ))
       );
 
       // grab results from restaurants database
@@ -111,7 +114,9 @@ export default function Header({ setSearchResults }) {
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
           ) || (item.tag.replace(/\s+/g, '').toLowerCase()
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
-          )
+          ) || (item.title.replace(/\s+/g, '').toLowerCase().includes(
+            trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ))
       );
 
       // grab results from activities database
@@ -121,14 +126,29 @@ export default function Header({ setSearchResults }) {
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
           ) || (item.tag.replace(/\s+/g, '').toLowerCase()
             === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
-          )
+          ) || (item.title.replace(/\s+/g, '').toLowerCase().includes(
+            trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ))
+      );
+
+      // grab results from hotels database
+      const filteredHotels = hotels.filter(
+        item =>
+          (item.location.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ) || (item.tag.replace(/\s+/g, '').toLowerCase()
+            === trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ) || (item.title.replace(/\s+/g, '').toLowerCase().includes(
+            trimmedValue.trimEnd().replace(/\s+/g, '').toLowerCase()
+          ))
       );
 
       // Combine result from 3 databases into 1 object
       const filteredData = {
         visit: filteredLocations,
         eat: filteredRestaurants,
-        activities: filteredActivities
+        activities: filteredActivities,
+        hotels: filteredHotels,
       };
       setSearchResults(filteredData);
     } else {
@@ -136,7 +156,8 @@ export default function Header({ setSearchResults }) {
       const allData = {
         visit: locations,
         eat: restaurants,
-        activities: activities
+        activities: activities,
+        hotels: hotels
       };
       setSearchResults(allData);
     }
@@ -147,7 +168,8 @@ export default function Header({ setSearchResults }) {
     const allData = {
       visit: locations,
       eat: restaurants,
-      activities: activities
+      activities: activities,
+      hotels: hotels
     };
     setSearchResults(allData);
   }, []);

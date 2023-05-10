@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import '../../App.css';
-import { Button, Col, Menu, Row } from 'antd';
-import { EnvironmentOutlined, CoffeeOutlined, FireOutlined } from '@ant-design/icons';
+import { Button, Col, Menu, Radio, Row, Space } from 'antd';
+import {
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  DollarCircleOutlined,
+  EnvironmentOutlined,
+  CoffeeOutlined,
+  FireOutlined,
+  HomeOutlined
+} from '@ant-design/icons';
 
 
 const tabs = [
@@ -19,6 +27,11 @@ const tabs = [
     label: 'Activities',
     key: 'activities',
     icon: <FireOutlined />,
+  },
+  {
+    label: 'Hotels',
+    key: 'hotels',
+    icon: <HomeOutlined />,
   },
 ];
 
@@ -45,17 +58,25 @@ export default function SearchFilter({ updateTab }) {
           <Menu onClick={onClick} selectedKeys={[currentTab]} mode="horizontal" items={tabs} />
         </Col>
       </Row>
-
-      {/* TODO: implement search filters */}
       <Row style={{ margin: "1rem", marginLeft: "5%" }}>
         <Button>
-          filter 1
+          <Radio.Group name="radioGroup" defaultValue={0}>
+            <Space direction="horizontal">
+              <Radio value={0}>all</Radio>
+              <Radio value={1}>free <DollarCircleOutlined /></Radio>
+              <Radio value={2}>price <ArrowUpOutlined /></Radio>
+              <Radio value={3}>price <ArrowDownOutlined /></Radio>
+            </Space>
+          </Radio.Group>
         </Button>
-        <Button style={{ marginLeft: "7px" }}>
-          filter 2
-        </Button>
-        <Button style={{ marginLeft: "7px" }}>
-          filter 3
+        <Button style={{ marginLeft: "1em" }}>
+          <Radio.Group name="radioGroup" defaultValue={0}>
+            <Space direction="horizontal">
+              <Radio value={0}>all</Radio>
+              <Radio value={1}>rating <ArrowUpOutlined /></Radio>
+              <Radio value={2}>rating <ArrowDownOutlined /></Radio>
+            </Space>
+          </Radio.Group>
         </Button>
       </Row>
     </div>

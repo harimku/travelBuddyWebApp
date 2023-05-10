@@ -26,7 +26,7 @@ export default function Reviews() {
 
   return (
     <div>
-      <Card>
+      <Card style={{ paddingLeft: "5%", paddingRight: "5%" }}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
@@ -46,7 +46,8 @@ export default function Reviews() {
             <Select options={[
               { key: 1, value: "activities" },
               { key: 2, value: "locations" },
-              { key: 3, value: "restaurants" }
+              { key: 3, value: "restaurants" },
+              { key: 4, value: "hotels" }
             ]} />
           </Form.Item>
           <Form.Item

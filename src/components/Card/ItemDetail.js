@@ -7,11 +7,21 @@ export default function ItemDetail({ data }) {
   const navigate = useNavigate();
 
   const handleReview = () => {
-    navigate("/writeReview");
+    const tokenString = window.localStorage.getItem('username');
+    if (tokenString && tokenString.length > 0) {
+      navigate("/writeReview");
+    } else {
+      message.error('You must be logged in to use this feature!');
+    }
   };
 
   const handleSave = () => {
-    message.success(`${data.title} is saved to your saved list!`);
+    const tokenString = window.localStorage.getItem('username');
+    if (tokenString && tokenString.length > 0) {
+      message.success(`${data.title} is saved to your saved list!`);
+    } else {
+      message.error('You must be logged in to use this feature!');
+    }
   };
 
   return (
@@ -20,7 +30,7 @@ export default function ItemDetail({ data }) {
         <Row>
           <Col
             xs={{ span: 24 }}
-            sm={{ span: 12 }}
+            sm={{ span: 11 }}
             md={{ span: 10 }}
             lg={{ span: 10 }}
           >
@@ -28,9 +38,10 @@ export default function ItemDetail({ data }) {
           </Col>
           <Col
             xs={{ span: 24 }}
-            sm={{ span: 12 }}
-            md={{ span: 14 }}
-            lg={{ span: 14 }}
+            sm={{ span: 11 }}
+            md={{ span: 12 }}
+            lg={{ span: 12 }}
+            style={{ marginLeft: "1em" }}
           >
             <h2>{data.title}</h2>
             <p>Location: {data.location}</p>

@@ -13,7 +13,12 @@ const ItemCard = ({ data, setItemData }) => {
   };
 
   const handleSave = () => {
-    message.success(`${data.title} is saved to your saved list!`);
+    const tokenString = window.localStorage.getItem('username');
+    if (tokenString && tokenString.length > 0) {
+      message.success(`${data.title} is saved to your saved list!`);
+    } else {
+      message.error('You must be logged in to use this feature!');
+    }
   }
 
   return (

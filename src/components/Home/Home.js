@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
+import { Empty } from 'antd';
 import ItemCard from "../Card/ItemCard";
 import SearchFilter from "../Header/SearchFilter";
 
@@ -19,6 +20,9 @@ export default function Home({ searchResults, setItemData }) {
       case "activities":
         setFilteredRes(searchResults["activities"]);
         break;
+      case "hotels":
+        setFilteredRes(searchResults["hotels"]);
+        break;
       default:
         break;
     }
@@ -35,7 +39,16 @@ export default function Home({ searchResults, setItemData }) {
             <ItemCard key={data.id} data={data} setItemData={setItemData} />
           ))
         ) : (
-          <div>No results found</div>
+          <div>
+            <Empty
+              style={{ paddingTop: "5em" }}
+              description={
+                <span>
+                  Data Not Found
+                </span>
+              }
+            />
+          </div>
         )
       ) : (
         <div>Error</div>

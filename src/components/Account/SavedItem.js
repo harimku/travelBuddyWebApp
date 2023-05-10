@@ -38,7 +38,7 @@ const SavedItem = ({ data, setItemData }) => {
           md={{ span: 8 }}
           lg={{ span: 8 }}
         >
-          <Title level={4}>{data.title}</Title>
+          <Title level={5}>{data.title}</Title>
         </Col>
         <Col
           xs={{ span: 24 }}
