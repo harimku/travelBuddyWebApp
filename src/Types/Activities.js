@@ -4,6 +4,7 @@ import hollywood from "../assets/activities/Hollywood.png";
 import dolores from "../assets/activities/dolores.png";
 import alcatraz from "../assets/activities/alcatraz.png";
 import fishermansWharf from "../assets/activities//fishermans-wharf.png";
+import centralPark from "../assets/locations/central-park.png";
 
 export const activities = [
   {
@@ -65,5 +66,15 @@ export const activities = [
     rating: 4.5,
     description:
       "Fisherman’s Wharf, on the northern waterfront, is one of the city's busiest tourist areas. Souvenir shops and stalls selling crab and clam chowder in sourdough bread bowls appear at every turn, as do postcard views of the bay, Golden Gate and Alcatraz. There’s also a colony of sea lions to see and historic ships to tour. At Ghirardelli Square, boutiques and eateries reside in the famed former chocolate factory.",
+  },
+  {
+    id: 7,
+    title: "Morning Walk in Central Park",
+    image: centralPark,
+    location: "New York",
+    tag: "NYC",
+    rating: 5,
+    description:
+      "Central Park is an urban park in New York City located between the Upper West and Upper East Sides of Manhattan. It is the fifth-largest park in the city, covering 843 acres (341 ha). It is the most visited urban park in the United States, with an estimated 42 million visitors annually as of 2016, and is the most filmed location in the world.",
   },
 ];
